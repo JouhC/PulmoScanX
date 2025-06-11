@@ -8,6 +8,7 @@ dependencies = [
     "numpy>=2.3.0",
     "pandas>=2.3.0",
     "pillow>=11.2.1",
+    "scikit-learn>=1.7.0",
     "torch>=2.7.1",
     "torchvision>=0.22.1",
     "tqdm>=4.67.1",
