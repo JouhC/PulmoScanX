@@ -12,6 +12,15 @@ wheels = [
 ]
 
 [[package]]
+name = "efficientnet-pytorch"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "torch" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2e/a0/dd40b50aebf0028054b6b35062948da01123d7be38d08b6b1e5435df6363/efficientnet_pytorch-0.7.1.tar.gz", hash = "sha256:00b9b261effce59d2d47aae2ad238c29a2a65175470f41ada7ecac439b7c1ee1", size = 21012, upload-time = "2021-04-15T15:17:23.111Z" }
+
+[[package]]
 name = "filelock"
 version = "3.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -48,6 +57,38 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/dc/fe/0f5a938c54105553436dbff7a61dc4fed4b1b2c98852f8833beaf4d5968f/joblib-1.5.1.tar.gz", hash = "sha256:f4f86e351f39fe3d0d32a9f2c3d8af1ee4cec285aafcb27003dda5205576b444", size = 330475, upload-time = "2025-05-23T12:04:37.097Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7d/4f/1195bbac8e0c2acc5f740661631d8d750dc38d4a32b23ee5df3cde6f4e0d/joblib-1.5.1-py3-none-any.whl", hash = "sha256:4719a31f054c7d766948dcd83e9613686b27114f190f717cec7eaa2084f8a74a", size = 307746, upload-time = "2025-05-23T12:04:35.124Z" },
+]
+
+[[package]]
+name = "kornia"
+version = "0.8.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "kornia-rs" },
+    { name = "packaging" },
+    { name = "torch" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d7/49/3c3aa9c68262b87551d50cdeefff027394316abfe11937a729371a39f50a/kornia-0.8.1.tar.gz", hash = "sha256:9ce5a54a11df661794934a293f89f8b8d49e83dd09b0b9419f6082ab07afe433", size = 652542, upload-time = "2025-05-08T11:13:25.485Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/80/95/a2e359cd08ea24498be59dcd5980e290cdf658ce534bcb7ae13b8ef694e6/kornia-0.8.1-py2.py3-none-any.whl", hash = "sha256:5dcb00faa795dfb45a3630d771387290bc4f40473451352ca250e5bcc81af3d1", size = 1078646, upload-time = "2025-05-08T11:13:22.826Z" },
+]
+
+[[package]]
+name = "kornia-rs"
+version = "0.1.9"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/de/28/6e0cc55dfe9967228cfacbeee79d2a31d8ed5bd6bcc478ec0a0f790f1e71/kornia_rs-0.1.9.tar.gz", hash = "sha256:c7e45e84eb3c2454055326f86329e48a68743507460fb7e39315397fa6eeb9a0", size = 108371, upload-time = "2025-05-07T11:42:08.505Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ad/12/83ebd43c8fb42d5ad1e66ce66af9c80e9b99e95758f7b0b1ceb8be8eebde/kornia_rs-0.1.9-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:e82f5d90ad5b3d02d28535d19bf612e25ca559003d56fad1d12cd173be5d8418", size = 2554277, upload-time = "2025-05-07T11:42:54.354Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/b3/d61868697048f92df3b1ca0fbee791b92c305ba7fae3755521d44dd9ffe1/kornia_rs-0.1.9-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:876f0805ed8d05bd94d6b9a6c43161cdc74bc5c4508f5b737d6975d1dcf9016d", size = 2299896, upload-time = "2025-05-07T11:42:42.859Z" },
+    { url = "https://files.pythonhosted.org/packages/98/3a/5f37388ed4fae3f34702e1af25398cdd7c071b4bb250f780e7a2a6378e70/kornia_rs-0.1.9-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:00021bb1941766e1e9e8c2cdbebcf33a08f8de3586e6efc791b9580a7e52b5ed", size = 2486072, upload-time = "2025-05-07T11:42:14.6Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/d8/a286db51c1269f632b3e4fdb08cb7319476dbe576796be19fdfbdfd4df1c/kornia_rs-0.1.9-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9feaa6d410bc4d0609f3c1f2c0c010743706c2f5eed6f5ded10f2b8fec32acdf", size = 2760634, upload-time = "2025-05-07T11:42:28.998Z" },
+    { url = "https://files.pythonhosted.org/packages/9a/6f/c3d7da7a06b71a1eb1eb017a1944bcdc9504ef5cdbb0e3345aceabd24b7a/kornia_rs-0.1.9-cp313-cp313-win_amd64.whl", hash = "sha256:4d063e9d74d2b198f080940cd1679cfb66004cd59bb7cc20e0bcf5874ce3d200", size = 2276574, upload-time = "2025-05-07T11:43:06.117Z" },
+    { url = "https://files.pythonhosted.org/packages/46/0d/09cb9deeac45e1ac89aacfa1a9417eba3a27015282ca841f4df197e727b2/kornia_rs-0.1.9-cp313-cp313t-macosx_10_12_x86_64.whl", hash = "sha256:f8d03da3dba89fd290f4df012f49262cde128e3682632b5c498b34909d875190", size = 2555142, upload-time = "2025-05-07T11:42:56.093Z" },
+    { url = "https://files.pythonhosted.org/packages/db/88/679db8feae7e2ad19317aaef84d6ff2129a37c601b47012ff67041daf7e3/kornia_rs-0.1.9-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:cef15e7db4cd05ebedc25cd62616c38346f71f7e8a2fb751feacc8726e7e417e", size = 2301310, upload-time = "2025-05-07T11:42:44.105Z" },
+    { url = "https://files.pythonhosted.org/packages/19/58/1ba746ac8a8a25d30bf3205c59b7a008dbcbe95533d21a33ad9097afe56d/kornia_rs-0.1.9-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0d6ea40aa2027f62e90c590112fc4be4a787092359ed041479d2b015c0483c97", size = 2487761, upload-time = "2025-05-07T11:42:16.59Z" },
+    { url = "https://files.pythonhosted.org/packages/0c/53/84462d5aaf0ad52cb30791d38e144ce8a79519c201ff204f903d54f1dd46/kornia_rs-0.1.9-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e9282a70c9e81710f04fdb23617c73191324ccc070c7f96d62efb5bf66dc242a", size = 2758585, upload-time = "2025-05-07T11:42:30.465Z" },
+    { url = "https://files.pythonhosted.org/packages/5e/51/755dda17b63604816a34ee3b9336d1c6ccb54f3e9bcbc8aafd98412fcb8f/kornia_rs-0.1.9-cp313-cp313t-win_amd64.whl", hash = "sha256:cd6b9860ca2fd6103340f4f977f74fa96562d89563e36c00059f2d96c7cea464", size = 2275851, upload-time = "2025-05-07T11:43:07.424Z" },
 ]
 
 [[package]]
@@ -260,6 +301,15 @@ wheels = [
 ]
 
 [[package]]
+name = "packaging"
+version = "25.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a1/d4/1fc4078c65507b51b96ca8f8c3ba19e6a61c8253c72794544580a7b6c24d/packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f", size = 165727, upload-time = "2025-04-19T11:48:59.673Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484", size = 66469, upload-time = "2025-04-19T11:48:57.875Z" },
+]
+
+[[package]]
 name = "pandas"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -321,6 +371,8 @@ name = "pulmoscanx"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "efficientnet-pytorch" },
+    { name = "kornia" },
     { name = "numpy" },
     { name = "pandas" },
     { name = "pillow" },
@@ -332,6 +384,8 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "efficientnet-pytorch", specifier = ">=0.7.1" },
+    { name = "kornia", specifier = ">=0.8.1" },
     { name = "numpy", specifier = ">=2.3.0" },
     { name = "pandas", specifier = ">=2.3.0" },
     { name = "pillow", specifier = ">=11.2.1" },
