@@ -19,3 +19,9 @@ val_test_transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406],
                          std=[0.229, 0.224, 0.225])
 ])
+
+mask_transform = transforms.Compose([
+    transforms.Grayscale(num_output_channels=1),          # Ensure grayscale 1 channel
+    transforms.Resize((1024, 1024)),                       # Resize to 1024x1024
+    transforms.ToTensor(),                                 # Converts to (C, H, W) and scales to [0,1]
+])

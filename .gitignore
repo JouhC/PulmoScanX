@@ -12,5 +12,6 @@ datasets/cxr/
 *.tar.gz
 
 *.pth
+*.pt
 
 .env
