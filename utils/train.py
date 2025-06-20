@@ -5,13 +5,26 @@ from sklearn.metrics import f1_score, roc_auc_score, accuracy_score
 from tqdm import tqdm
 import numpy as np
 
-def train(model, train_loader, val_loader, device, epochs=10, lr=1e-4, save_path=None, file_name="PulmoScanX_v2", pos_weight=None):
+def train(model, train_loader, val_loader, device, epochs=10, lr=1e-4, save_path=None,
+          file_name="PulmoScanX_v2", pos_weight=None, multi_gpu=False, device_ids=None):
+    
+    # Set visible CUDA devices
+    if device_ids is not None:
+        torch.cuda.set_device(device_ids[0])
+        device = torch.device(f"cuda:{device_ids[0]}")
+
     model.to(device)
 
+    # Multi-GPU support
+    if multi_gpu and torch.cuda.device_count() > 1:
+        print(f"Using {len(device_ids)} GPUs: {device_ids}")
+        model = nn.DataParallel(model, device_ids=device_ids)
+
+    # Loss and optimizer
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight.to(device)) if pos_weight is not None else nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=2, factor=0.5)
-    best_f1 = 0.0  # Track best F1-score
+    best_f1 = 0.0
 
     for epoch in range(epochs):
         model.train()
@@ -25,7 +38,7 @@ def train(model, train_loader, val_loader, device, epochs=10, lr=1e-4, save_path
             outputs = model(images)
             loss = criterion(outputs, labels)
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=2.0)  # gradient clipping
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=2.0)
             optimizer.step()
 
             running_loss += loss.item()
@@ -34,7 +47,6 @@ def train(model, train_loader, val_loader, device, epochs=10, lr=1e-4, save_path
         avg_loss = running_loss / len(train_loader)
         print(f"\nEpoch {epoch+1} Training Loss: {avg_loss:.4f}")
 
-        # Validation
         val_loss, val_metrics = validate(model, val_loader, criterion, device)
         scheduler.step(val_loss)
 
@@ -44,7 +56,9 @@ def train(model, train_loader, val_loader, device, epochs=10, lr=1e-4, save_path
         if val_metrics['f1'] > best_f1:
             best_f1 = val_metrics['f1']
             if save_path:
-                torch.save(model.state_dict(), f"{save_path}/{file_name}_checkpoint.pth")
+                torch.save(model.module.state_dict() if multi_gpu else model.state_dict(),
+                           f"{save_path}/{file_name}_checkpoint.pth")
+
 
 def validate(model, val_loader, criterion, device, threshold=0.5):
     model.eval()

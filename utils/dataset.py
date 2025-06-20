@@ -4,7 +4,8 @@ from seg_utils.data_preprocess import create_config
 from seg_utils.hybrid import Hybrid
 from torch.utils.data import Dataset, random_split, Subset
 from typing import Type
-from utils.transform import train_transform, val_test_transform, mask_transform
+#from utils.transform import train_transform, val_test_transform, mask_transform
+from utils.transform_kornia import train_transform, val_test_transform
 import os
 import pandas as pd
 import torch
@@ -14,8 +15,8 @@ class ChestXrayDataset(Dataset):
         self.data = pd.read_csv(csv_path) if csv_path else dataframe
         self.img_dir = img_dir
         self.transform = transform
-        self.img_names = self.data['id'].values
-        self.labels = self.data.drop(columns=['id', 'No Finding', 'subj_id']).values.astype('int64')
+        self.img_names = self.data['Image Index'].values
+        self.labels = self.data.drop(columns=['Image Index', 'No Finding']).values.astype('int64')
 
     def __len__(self):
         return len(self.img_names)

@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.models import densenet121, DenseNet121_Weights
+from torchvision.models import efficientnet_v2_s, EfficientNet_V2_S_Weights
 
 class ChestXrayDenseNet121(nn.Module):
     def __init__(self, num_classes=19, weights=DenseNet121_Weights.DEFAULT, dropout=0.2):
@@ -59,3 +60,22 @@ class ChestXrayDenseNet121WithMask(nn.Module):
 
     def forward(self, x):
         return self.base_model(x)
+
+
+class EfficientNetV2_MultiLabel(nn.Module):
+    def __init__(self, num_classes=19):  # change this for your case
+        super(EfficientNetV2_MultiLabel, self).__init__()
+        
+        # Load pretrained EfficientNetV2
+        weights = EfficientNet_V2_S_Weights.DEFAULT
+        self.backbone = efficientnet_v2_s(weights=weights)
+        
+        # Replace classifier
+        in_features = self.backbone.classifier[1].in_features
+        self.backbone.classifier = nn.Sequential(
+            nn.Dropout(p=0.4),
+            nn.Linear(in_features, num_classes)
+        )
+
+    def forward(self, x):
+        return self.backbone(x)

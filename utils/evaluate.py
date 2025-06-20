@@ -1,6 +1,7 @@
 import torch
-from sklearn.metrics import f1_score, precision_score, recall_score, accuracy_score, classification_report
-import pandas as pd         
+from sklearn.metrics import f1_score, precision_score, recall_score, accuracy_score, classification_report, precision_recall_curve
+import pandas as pd
+import numpy as np         
 
 def evaluate(model, dataloader, device, threshold=0.5, pos_weight=None):
     model.eval()
@@ -62,7 +63,66 @@ def evaluate(model, dataloader, device, threshold=0.5, pos_weight=None):
         "accuracy": accuracy
     }
 
-def evaluate_per_class(model, dataloader, device, class_names, threshold=0.5):
+
+def evaluate_per_class(model, dataloader, device, class_names):
+    model.eval()
+    criterion = torch.nn.BCEWithLogitsLoss()
+
+    all_probs = []
+    all_labels = []
+    total_loss = 0.0
+
+    with torch.no_grad():
+        for images, labels in dataloader:
+            images = images.to(device)
+            labels = labels.to(device)
+
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            total_loss += loss.item() * images.size(0)
+
+            probs = torch.sigmoid(outputs)
+            all_probs.append(probs.cpu())
+            all_labels.append(labels.cpu())
+
+    all_probs = torch.cat(all_probs).numpy()
+    all_labels = torch.cat(all_labels).numpy()
+
+    # ---------- Class-specific threshold tuning ----------
+    thresholds = []
+    for i in range(all_labels.shape[1]):
+        precision, recall, t = precision_recall_curve(all_labels[:, i], all_probs[:, i])
+        f1 = 2 * precision * recall / (precision + recall + 1e-8)
+        best_t = t[np.argmax(f1)] if len(t) > 0 else 0.5
+        thresholds.append(best_t)
+    thresholds = np.array(thresholds)
+
+    # ---------- Apply per-class thresholds ----------
+    pred_labels = (all_probs > thresholds[np.newaxis, :]).astype(int)
+
+    # ---------- F1 Scores ----------
+    f1s = f1_score(all_labels, pred_labels, average=None, zero_division=0)
+
+    df = pd.DataFrame({
+        'Pathology': class_names,
+        'F1 Score': f1s,
+        'Threshold': thresholds
+    }).sort_values(by='F1 Score', ascending=False)
+
+    print("\nPer-Class F1 Scores (with tuned thresholds):")
+    print(df.to_string(index=False))
+
+    avg_loss = total_loss / len(dataloader.dataset)
+
+    return {
+        "loss": avg_loss,
+        "f1_macro": f1_score(all_labels, pred_labels, average='macro'),
+        "per_class_f1": df,
+        "thresholds": thresholds
+    }
+
+
+def evaluate_per_class2(model, dataloader, device, class_names, threshold=0.5):
     model.eval()
     criterion = torch.nn.BCEWithLogitsLoss()
 
